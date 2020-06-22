@@ -8,7 +8,7 @@ public class Main {
         System.out.println(a.distanceFromOrgin());
         System.out.println(a.getQuadrant());
 
-
+        //Line Segment Problem Set
         Point point1 = new Point(0,0);
         Point point2 = new Point(0,0);
         LineSegment lineSegment = new LineSegment(point1,point2);
@@ -17,5 +17,20 @@ public class Main {
             System.out.println(pointsActual[i]);
         }
 
+        //Distance Problem Set Line Distance
+        Point distancePoint1 = new Point(1,5);
+        Point distancePoint2 = new Point(3,4);
+        Distance linedistance = new Distance(distancePoint1);
+        double finalDistance = linedistance.distanceToPoint(distancePoint2);
+        System.out.println(finalDistance);
+
+
+        //Distance Problem Set Line Distance
+        Point[] pointsExpected = new Point[3];
+        pointsExpected[0]=new Point(0,1);
+        pointsExpected[1]=new Point(10,4);
+        pointsExpected[2]=new Point(91,90);
+        Point closepoint = linedistance.closestPoint(pointsExpected);
+        System.out.println(closepoint);
     }
 }
