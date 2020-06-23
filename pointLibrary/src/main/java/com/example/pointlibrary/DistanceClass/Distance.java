@@ -1,11 +1,13 @@
-package com.example.pointlibrary;
+package com.example.pointlibrary.DistanceClass;
+
+import com.example.pointlibrary.Point;
 
 public class Distance {
 
     private Point firstpoint;
     private Point point;
     public Distance(Point firstpoint){
-            this.firstpoint = firstpoint;
+        this.firstpoint = firstpoint;
     }
 
     public double distanceToPoint(Point other) {
@@ -31,10 +33,12 @@ public class Distance {
             if (distance < lastdistance) {
                 return points[i];
             } else {
-                 return points[i + 1];
+                return points[i + 1];
             }
 
+
         }
+        return null;
 
 
     }

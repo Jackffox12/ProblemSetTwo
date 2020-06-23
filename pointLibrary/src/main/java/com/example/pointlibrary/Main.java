@@ -1,5 +1,7 @@
 package com.example.pointlibrary;
 
+import com.example.pointlibrary.DistanceClass.Distance;
+
 public class Main {
     public static void main(String[] args){
         System.out.println("My name is Jack Fox.");
@@ -32,5 +34,17 @@ public class Main {
         pointsExpected[2]=new Point(91,90);
         Point closepoint = linedistance.closestPoint(pointsExpected);
         System.out.println(closepoint);
+
+
+        //Path Class Problem Set #3
+
+        Point[] points = new Point[] {new Point(0,0), new Point(3,4),new Point(10,5), new Point(0,5), new Point(1,1) };
+        Path path = new Path(points);
+        System.out.println(path.totalDistance());
+
+        Point distancePointnew = new Point(9,1);
+        Path.WayPoint finalDistance1  = path.setTarget(12, distancePointnew);
+        System.out.println(finalDistance1.toString());
+
     }
 }
