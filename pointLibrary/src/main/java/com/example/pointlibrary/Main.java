@@ -38,6 +38,7 @@ public class Main {
 
         //Path Class Problem Set #3
 
+        /**
         Point[] points = new Point[] {new Point(0,0), new Point(3,4),new Point(10,5), new Point(0,5), new Point(1,1) };
         Path path = new Path(points);
         System.out.println(path.totalDistance());
@@ -45,6 +46,18 @@ public class Main {
         Point distancePointnew = new Point(9,1);
         Path.WayPoint finalDistance1  = path.setTarget(12, distancePointnew);
         System.out.println(finalDistance1.toString());
+        */
+
+
+        //Interpolate Test
+
+        Point firstPoint1 = new Point(2,5);
+        Point firstPoint2 = new Point(3,1);
+        LineSegment lineSegment1 = new LineSegment(firstPoint1, firstPoint2);
+        System.out.println("break");
+        System.out.println(lineSegment.interpolate(5));
+
+
 
     }
 }

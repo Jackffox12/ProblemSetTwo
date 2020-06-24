@@ -28,6 +28,29 @@ public class LineSegment {
         return pointsExpected;
     }
 
+    public Point interpolate(double distanceFromFirstPoint) {
+        double point1x = point1.getX();
+        double point1y = point1.getY();
+        double point2x = point2.getX();
+        double point2y = point2.getY();
+
+        double slope = (point2y - point1y)/(point2x-point1x);
+        double xDist = point1x + (distanceFromFirstPoint * (Math.sqrt(1+Math.pow(slope,2))));
+        double yDist = point1y + (slope * distanceFromFirstPoint * (Math.sqrt(1+Math.pow(slope,2))));
+
+        Point finalDistance = new Point(xDist, yDist);
+
+
+        return finalDistance;
+    }
+
+
+
+
+
+
+
+
 
 
 
