@@ -34,15 +34,23 @@ public class LineSegment {
         double point2x = point2.getX();
         double point2y = point2.getY();
 
-        double slope = (point2y - point1y)/(point2x-point1x);
-        double xDist = point1x + (distanceFromFirstPoint * (Math.sqrt(1+Math.pow(slope,2))));
-        double yDist = point1y + (slope * distanceFromFirstPoint * (Math.sqrt(1+Math.pow(slope,2))));
+        double slope = (point2y - point1y) / (point2x - point1x);
+
+        double newDistance = Math.sqrt(Math.pow(point1x - point2x, 2) + Math.pow(point1y - point2y, 2));
+
+
+        double xDist = point1.getX()+(point2.getX() - point1.getX())*(distanceFromFirstPoint/newDistance);
+        double yDist = point1.getY()+(point2.getY() - point1.getY())*(distanceFromFirstPoint/newDistance);
 
         Point finalDistance = new Point(xDist, yDist);
 
 
         return finalDistance;
     }
+
+
+
+
 
 
 

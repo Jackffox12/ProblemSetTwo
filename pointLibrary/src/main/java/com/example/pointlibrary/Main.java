@@ -27,6 +27,7 @@ public class Main {
         System.out.println(finalDistance);
 
 
+
         //Distance Problem Set Line Distance
         Point[] pointsExpected = new Point[3];
         pointsExpected[0]=new Point(0,1);
@@ -51,11 +52,11 @@ public class Main {
 
         //Interpolate Test
 
-        Point firstPoint1 = new Point(2,5);
-        Point firstPoint2 = new Point(3,1);
+        Point firstPoint1 = new Point(1,5);
+        Point firstPoint2 = new Point(3,4);
         LineSegment lineSegment1 = new LineSegment(firstPoint1, firstPoint2);
-        System.out.println("break");
-        System.out.println(lineSegment.interpolate(5));
+        System.out.println(lineSegment.interpolate(5.2));
+
 
 
 
