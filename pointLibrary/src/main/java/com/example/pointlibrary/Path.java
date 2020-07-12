@@ -11,8 +11,7 @@ public class Path {
 
 
     private ArrayList<WayPoint> wayPoints;
-
-
+    private double totalDistanceFinal = 0;
     public Path(Point[] rawPoints) {
         wayPoints = new ArrayList<>();
         double firstDistEnd = 0; double distStart = 0; double distEnd = 0;
@@ -50,7 +49,6 @@ public class Path {
                     double distance = Math.sqrt(Math.pow(wayPoints.get(i).point.getX() - wayPoints.get(i - 1).point.getX(), 2) + Math.pow(wayPoints.get(i).point.getY() - wayPoints.get(i -1).point.getY(), 2));
                     totalDistance1 += distance;
                 }
-
             return totalDistance1;
         }
     /**
@@ -59,14 +57,17 @@ public class Path {
      */
     public Path.WayPoint targetPoint(Point current, double distance) {
         int counter = 0;
-        double currentDistance = 0.0;
+        double currentDistance = 0.0; double newDist = 0;
         double distanceAlongPath = 0.0;
         for(int i = 0; i<wayPoints.size(); i++) {
             WayPoint wp = wayPoints.get(i);
             distanceAlongPath = wp.componentAlongPath(current);
             counter++;
             if (distanceAlongPath>0.0){
-                currentDistance = wp.componentAlongPath(current);
+                for (int a = counter; a < wayPoints.size(); a++) {
+                    newDist += Math.sqrt(Math.pow(wayPoints.get(a).point.getX() - wayPoints.get(a - 1).point.getX(), 2) + Math.pow(wayPoints.get(a).point.getY() - wayPoints.get(a - 1).point.getY(), 2));
+                }
+                currentDistance = distanceAlongPath;
                 counter--;
                 break;
             }
@@ -74,25 +75,26 @@ public class Path {
         double lineSegmentDistance = 0.0;
         for(int i = counter+1; i<wayPoints.size(); i++) {
             lineSegmentDistance = Math.sqrt(Math.pow(wayPoints.get(i).point.getX() - wayPoints.get(i - 1).point.getX(), 2) + Math.pow(wayPoints.get(i).point.getY() - wayPoints.get(i - 1).point.getY(), 2));
-            if(lineSegmentDistance<currentDistance){
+            if(lineSegmentDistance<currentDistance+lineSegmentDistance){
                 break;
             }
-            currentDistance += lineSegmentDistance;
-            counter++;
-
+            else{
+                currentDistance += lineSegmentDistance;
+                counter++;
+            }
         }
         double trueDistance = (distance - currentDistance);
-        double lastDist = Math.sqrt(Math.pow(current.getX() - wayPoints.get(0).point.getX(), 2) + Math.pow(current.getY() - wayPoints.get(0).point.getY(), 2));
-
-        if (trueDistance<=0){
+        double lastDist = Math.sqrt(Math.pow(wayPoints.get(0).point.getX() - wayPoints.get(wayPoints.size()-1).point.getX(), 2) + Math.pow(current.getY() - wayPoints.get(0).point.getY(), 2));
+        double trueLastDist = distanceAlongPath + newDist;
+        if (distance>=trueLastDist){
             double distStart = 0;
             double distEnd = 0;
             for(int a = counter; a<wayPoints.size()-1; a++){
                 distStart +=  Math.sqrt(Math.pow(wayPoints.get(a).point.getX() - wayPoints.get(a - 1).point.getX(), 2) + Math.pow(wayPoints.get(a).point.getY() - wayPoints.get(a - 1).point.getY(), 2));
             }
-           return new WayPoint(wayPoints.get(wayPoints.size()-1).point, wayPoints.get(wayPoints.size()-1).point.getX(), wayPoints.get(wayPoints.size()-1).point.getY(), trueDistance, distStart, 0);
+            return new WayPoint(wayPoints.get(wayPoints.size()-1).point, wayPoints.get(wayPoints.size()-1).point.getX(), wayPoints.get(wayPoints.size()-1).point.getY(), trueDistance, distStart, 0);
         }
-        else if(distance<lastDist){
+        else if(distance<=distanceAlongPath){
             double distStart = 0;
             double distEnd = 0;
             for(int b = counter-1; b>0; b--){
@@ -100,16 +102,16 @@ public class Path {
             }
             return new WayPoint(wayPoints.get(0).point, wayPoints.get(0).point.getX(), wayPoints.get(0).point.getY(), trueDistance, 0,distEnd);
         }
-        else{
+        else {
             double distStart = 0;
             double distEnd = 0;
-            for(int a = counter; a<wayPoints.size()-1; a++){
-                distStart +=  Math.sqrt(Math.pow(wayPoints.get(a).point.getX() - wayPoints.get(a - 1).point.getX(), 2) + Math.pow(wayPoints.get(a).point.getY() - wayPoints.get(a - 1).point.getY(), 2));
+            for (int a = counter; a < wayPoints.size() - 1; a++) {
+                distStart += Math.sqrt(Math.pow(wayPoints.get(a).point.getX() - wayPoints.get(a - 1).point.getX(), 2) + Math.pow(wayPoints.get(a).point.getY() - wayPoints.get(a - 1).point.getY(), 2));
             }
-            for(int b = counter-1; b>0; b--){
-                distEnd +=  Math.sqrt(Math.pow(wayPoints.get(b).point.getX() - wayPoints.get(b-1).point.getX(), 2) + Math.pow(wayPoints.get(b).point.getY() - wayPoints.get(b-1).point.getY(), 2));
+            for (int b = counter - 1; b > 0; b--) {
+                distEnd += Math.sqrt(Math.pow(wayPoints.get(b).point.getX() - wayPoints.get(b - 1).point.getX(), 2) + Math.pow(wayPoints.get(b).point.getY() - wayPoints.get(b - 1).point.getY(), 2));
             }
-            LineSegment finalInterpolate = new LineSegment(wayPoints.get(counter).point, wayPoints.get(counter+1).point);
+            LineSegment finalInterpolate = new LineSegment(wayPoints.get(counter).point, wayPoints.get(counter + 1).point);
             Point trueInterpolate = finalInterpolate.interpolate(trueDistance);
             return new WayPoint(trueInterpolate, trueInterpolate.getX(), trueInterpolate.getY(), trueDistance, distStart, distEnd);
         }

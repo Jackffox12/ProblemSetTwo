@@ -12,7 +12,7 @@ public class PathTest {
     public void totalDistance() {
         Point[] points = new Point[] {new Point(0,0), new Point(10,10), new Point(3,4)};
         Path path = new Path(points);
-        assertEquals(10, path.totalDistance(), 0.00001);
+        assertEquals(23.361680081023838, path.totalDistance(), 0.00001);
 
     }
 
@@ -21,6 +21,13 @@ public class PathTest {
         //Testing for points when position of wayPoints aren't straight
         //Testing for points when position of wayPoints is straight
 
+        Point distancePoint4 = new Point(0,0);
+        Point[] points4 = new Point[] {new Point(2,0), new Point(2,1), new Point (3,2), new Point (4,4)};
+        Path path4 = new Path(points4);
+        Path.WayPoint wayPoint4 = path4.targetPoint(distancePoint4, 1);
+        Point expected4 = new Point(4.0,20.0);
+        assertEquals(expected4, wayPoint4.point);
+
         Point distancePoint3 = new Point(2,2);
         Point[] points3 = new Point[] {new Point(0,0), new Point(1,3), new Point (5,4), new Point(4,8), new Point (0,9)};
         Path path3 = new Path(points3);
@@ -28,12 +35,6 @@ public class PathTest {
         Point expected3 = new Point(4.37,6.53);
         assertEquals(expected3, wayPoint3.point);
 
-        Point distancePoint4 = new Point(3,3);
-        Point[] points4 = new Point[] {new Point(0,0), new Point(2,1), new Point (3,2), new Point (4,4), new Point (4,20)};
-        Path path4 = new Path(points4);
-        Path.WayPoint wayPoint4 = path4.targetPoint(distancePoint4, 6);
-        Point expected4 = new Point(1.401,1.899);
-        assertEquals(expected4, wayPoint4.point);
 
         //Testing for points when the distance doesn't reach the first waypoint.
         Point distancePoint2 = new Point(0,0);
